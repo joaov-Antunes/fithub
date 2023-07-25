@@ -1,20 +1,14 @@
-import express, { Request, Response, request, response } from 'express';
+import express, { NextFunction, Request, Response, request, response } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import { json, urlencoded } from 'body-parser';
 import router from './src/routes';
 import db from './src/dbConfig';
+import errorhandling from './src/middlewares/Error';
 
 dotenv.config();
 
-db
-.initialize()
-.then(() => {
-    console.log('Banco de dados rodando');
-})
-.catch((err) => {
-    console.error("Error during Data Source initialization:", err)
-});
+db.initialize();
 
 const app = express();
 
@@ -26,14 +20,8 @@ const port = process.env.PORT || 3308;
 
 app.use('/', router);
 
-app.use((request: Request, response: Response) => {
-    if(response.statusCode < 400) {
-        response.status(200);
-        return;
-    }
-
-    response.status(500).json({ Message: 'Internal server error' });
-});
+//middleware para tratamento global de erros
+app.use(errorhandling);
 
 app.listen(port, () => {
     console.log('🚀 servidor rodando na porta %d', port);

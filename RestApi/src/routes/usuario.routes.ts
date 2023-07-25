@@ -1,4 +1,4 @@
-import { Router, request, response } from "express";
+import { Router, Request, Response } from "express";
 import AutenticacaoService from "../services/AutenticacaoService";
 import autenticacao from "../middlewares/Autenticacao";
 import UsuarioService from "../services/UsuarioService";
@@ -15,7 +15,7 @@ router.post('/autenticar', async(request, response) => {
     return response.json(retorno);
 });
 
-router.post('/cadastrar', async(request, response) => {
+router.post('/cadastrar', async(request: Request, response: Response) => {
     const registro = request.body;
 
     const service = new UsuarioService();
@@ -23,10 +23,6 @@ router.post('/cadastrar', async(request, response) => {
     const retorno = service.UsuarioSalvar(registro);
 
     return response.json(retorno);
-});
-
-router.get('/teste', autenticacao, async(request, response) => {
-    return response.json({Message: 'bateuuuu'});
 });
 
 export default router;

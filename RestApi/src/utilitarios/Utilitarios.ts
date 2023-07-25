@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
 class Utilitarios {
-    static CRYPTO_SENHA: string = process.env.CRYPTO_SENHA;
+    static CRYPTO_SENHA: string = 'a37c7f3c8415fdfa2b8b2b213a1fa223';
 
     constructor() {}
 

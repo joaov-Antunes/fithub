@@ -11,7 +11,9 @@ declare global {
 }
 
 const autenticacao = async function autenticacao(request: Request, response: Response, next: NextFunction): Promise<any> {
-    const token = request.headers['authorization']; 
+    let token: string = request.headers['authorization']; 
+
+    token = token.split(' ')[1];
 
     if (!token) {
         return response.status(401).json({ message: 'Token não fornecido' });
@@ -24,7 +26,7 @@ const autenticacao = async function autenticacao(request: Request, response: Res
 
         // Se tudo estiver correto, você pode adicionar o objeto do usuário decodificado à requisição
         // para que outras rotas tenham acesso a essas informações, se necessário.
-        request.usuario = decoded as Usuario;
+        request.usuario = decoded.usuario as Usuario;
         
         next();
     });

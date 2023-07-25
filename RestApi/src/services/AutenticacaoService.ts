@@ -18,10 +18,10 @@ class AutenticacaoService {
         const senhaHash: string = await Utilitarios.gerarHash(Senha);
 
         const usuario: Usuario = await this.usuario.createQueryBuilder('usuario')
-                        .where('usuario.Email = :email', {
-                            email: Email
-                        })
-                        .getOne();
+                                                    .where('usuario.Email = :email', {
+                                                        email: Email
+                                                    })
+                                                    .getOne();
 
         if(!usuario) {
             throw new Error('Usuario ou senha inválidos');
@@ -31,9 +31,11 @@ class AutenticacaoService {
             throw new Error('Usuario ou senha inválidos');
         }
 
+        delete usuario.Senha;
+
         access_token = sign({
             usuario: usuario,
-            Id: usuario.Id,
+            Id: usuario.IdEnc,
             tipoId: usuario.UsuariotipoId,
         },
         process.env.SECRET,

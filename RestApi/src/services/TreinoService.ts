@@ -57,6 +57,20 @@ class TreinoService {
 
         return retorno;
     }
+
+    public async TreinoListar(id: number): Promise<Treino[]> {
+        const retorno: Treino[] = await this.treino.find({
+            where: {
+                UsuarioId: id
+            }
+        });
+
+        retorno.forEach(n => {
+            delete n.Id;
+        });
+
+        return retorno;
+    }
 }
 
 export default TreinoService;

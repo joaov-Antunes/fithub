@@ -32,4 +32,6 @@ export class Usuario {
   })
   @JoinColumn([{ name: "UsuariotipoId", referencedColumnName: "Id" }])
   Usuariotipo: Usuariotipo;
+
+  IdEnc: string;
 }
