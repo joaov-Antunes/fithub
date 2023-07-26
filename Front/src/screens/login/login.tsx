@@ -1,12 +1,17 @@
 import { Text, TouchableOpacity, View, Image, TextInput } from "react-native";
 import styles from "./styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UsuarioService from "../../services/usuarioService";
 import AxiosService from "../../services/axiosService";
 import AutenticacaoService from "../../services/autenticacaoService";
 import Utilitarios from "../../utilitarios/Utilitarios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }: any) {
+    useEffect(() => {
+        AsyncStorage.clear();
+    }, []);
+
     const [Nome, setNome] = useState('');
     const [Email, setEmail] = useState('');
     const [Senha, setSenha] = useState('');
@@ -18,6 +23,8 @@ export default function Login({ navigation }: any) {
     const [avisoEmail, setAvisoEmail] = useState(false);
     const [avisoSenha, setAvisoSenha] = useState(false);
     const [avisoConfsenha, setAvisoConfsenha] = useState(false);
+
+    const [avisoLogin, setAvisoLogin] = useState(false);
 
     const axiosService: AxiosService = new AxiosService();
 
@@ -75,7 +82,10 @@ export default function Login({ navigation }: any) {
         
         if(res.status == 200) {
             navigation.navigate('home');
+            return;
         }
+
+        setAvisoLogin(true);
     }
 
     return (
@@ -84,7 +94,12 @@ export default function Login({ navigation }: any) {
             <Text style={styles.text}>Insira os dados de acesso</Text>
             <TextInput style={styles.input} placeholderTextColor={'#fff'} placeholder="Email" onChangeText={text => setUsuario(text)}/>
             <TextInput style={styles.input} placeholderTextColor={'#fff'} placeholder={"Senha"} onChangeText={text => setSenhaLogin(text)}/>
-            <TouchableOpacity style={styles.button} onPress={async() => await Autenticar()}><Text style={styles.btnText}>ENTRAR</Text></TouchableOpacity>
+            <Text style={[styles.aviso, avisoLogin ? {display: 'flex'} : {display:'none'}]}>Usuário ou senha incorretos</Text>
+            
+            <TouchableOpacity style={styles.button} onPress={async() => await Autenticar()}>
+                <Text style={styles.btnText}>ENTRAR</Text>
+            </TouchableOpacity>
+
             <Text style={styles.text}>OU</Text>
             <Text style={[styles.text, styles.cadastroText]}>Cadastre-se</Text>
             <TextInput style={styles.input} placeholderTextColor={'#fff'} placeholder="Nome" onChangeText={text => setNome(text)}/>
@@ -95,7 +110,10 @@ export default function Login({ navigation }: any) {
             <Text style={[styles.aviso, avisoConfsenha ? {display: 'flex'} : {display:'none'}]}>* Este campo é obrigatório</Text>
             <TextInput style={styles.input} placeholderTextColor={'#fff'} placeholder="Confirmação de senha" onChangeText={text => setSenha(text)}/>
             <Text style={[styles.aviso, avisoSenha ? {display: 'flex'} : {display:'none'}]}>* Este campo é obrigatório</Text>
-            <TouchableOpacity style={styles.button} onPress={async () => await Gravar()}><Text style={styles.btnText}>CADASTRAR</Text></TouchableOpacity>
+
+            <TouchableOpacity style={styles.button} onPress={async () => await Gravar()}>
+                <Text style={styles.btnText}>CADASTRAR</Text>
+            </TouchableOpacity>
         </View>
     );
 }

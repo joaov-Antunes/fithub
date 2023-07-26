@@ -3,7 +3,7 @@ import styles from "./styles";
 
 export default function Home() {
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={{color: '#fff'}}>Home works!</Text>
         </View>
     )

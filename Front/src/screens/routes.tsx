@@ -9,9 +9,12 @@ const Drawer = createDrawerNavigator()
 export default function Routes() {
     return (
         <NavigationContainer>
-            <Drawer.Navigator initialRouteName='login'>
-                <Drawer.Screen name='login' component={Login}/>
+            <Drawer.Navigator initialRouteName='sair'>
                 <Drawer.Screen name='home' component={Home}/>
+                <Drawer.Screen name='sair' options={{
+                    headerShown: false
+                }}
+                component={Login}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )   
