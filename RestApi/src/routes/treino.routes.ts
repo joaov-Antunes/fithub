@@ -23,8 +23,6 @@ router.post('/salvar', autenticacao, async(request: Request, response: Response)
 router.get('/listar', autenticacao, async(request: Request, response: Response) => {
     const usuarioId: number = request.usuario.Id;
 
-    console.log(request.usuario);
-
     const service = new TreinoService();
 
     const retorno = await service.TreinoListar(usuarioId);

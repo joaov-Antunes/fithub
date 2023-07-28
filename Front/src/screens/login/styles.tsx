@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         height: 47,
         paddingLeft: 5,
         paddingHorizontal: 0,
+        color: '#fff'
     },
     button: {
         width: 200,

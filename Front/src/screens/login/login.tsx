@@ -78,14 +78,16 @@ export default function Login({ navigation }: any) {
             return;
         }
 
-        const res = await autenticacaoService.Autenticar(registroLogin);
-        
-        if(res.status == 200) {
+        await autenticacaoService.Autenticar(registroLogin)
+        .then(async res => {
+            await Utilitarios.GravarToken(res.data.access_token);
+            setAvisoLogin(false);
             navigation.navigate('home');
             return;
-        }
-
-        setAvisoLogin(true);
+        })
+        .catch(err => {
+            setAvisoLogin(true);
+        });
     }
 
     return (
