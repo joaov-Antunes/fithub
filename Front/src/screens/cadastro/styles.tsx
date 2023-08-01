@@ -5,8 +5,7 @@ const orange: string = '#EF8F00';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#333'
+        alignItems: 'center'
     },
     logo: {
         marginTop: 32,

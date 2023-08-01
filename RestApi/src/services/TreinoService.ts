@@ -65,10 +65,6 @@ class TreinoService {
             }
         });
 
-        retorno.forEach(n => {
-            delete n.Id;
-        });
-
         return retorno;
     }
 }

@@ -4,21 +4,21 @@ import Utilitarios from "../utilitarios/Utilitarios";
 
 class AxiosService {
   token: string | null = '';
+  
+  async ObterToken(): Promise<string | null> {
+    this.token = await Utilitarios.GetToken()
 
-  ObterToken() {
-    Utilitarios.GetToken()
-    .then(res => {
-      this.token = res;
-    })
+    return this.token;
   }
 
   constructor() {}
 
   public Criar() {
-    this.ObterToken();
     const instance: AxiosInstance = axios.create({
       baseURL: 'http://26.214.130.64:3308/',
-      headers: { authorization: 'Bearer ' + this.token },
+      headers: {
+        "Content-Type": 'application/json',
+       },
       validateStatus: status => {
         if(status==401)
         {
@@ -31,9 +31,20 @@ class AxiosService {
         return false
         }
     });
+
+    instance.interceptors.request.use(async (config) => {
+      await this.ObterToken();
+      if (this.token) {
+        config.headers.Authorization = `Bearer ${this.token}`;
+      }
+      return config;
+    }, error => {
+      return Promise.reject(error);
+    });
     
     return instance;
   }
+  
 }
 
 export default AxiosService;

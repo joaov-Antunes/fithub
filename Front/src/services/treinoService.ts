@@ -7,7 +7,7 @@ class TreinoService {
         this.axiosService = this.axiosServ.Criar();
     }
 
-    async Listar(): Promise<any> {
+    Listar(): Promise<any> {
         return this.axiosService.get('treino/listar');
     }
 }

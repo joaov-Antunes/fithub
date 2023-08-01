@@ -13,7 +13,7 @@ declare global {
 const autenticacao = async function autenticacao(request: Request, response: Response, next: NextFunction): Promise<any> {
     let token: string = request.headers['authorization']; 
 
-    token = token.split(' ')[1];
+    token = token?.split(' ')[1];
 
     if (!token) {
         return response.status(401).json({ message: 'Token não fornecido' });
